@@ -12,8 +12,6 @@ class Button extends StatelessWidget {
       required this.onPressed});
 
   final Color primary = const Color.fromARGB(255, 17, 14, 71);
-  final Color secondary = const Color.fromARGB(255, 229, 228, 234);
-  final Color secondaryText = const Color.fromARGB(255, 170, 169, 177);
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +31,8 @@ class Button extends StatelessWidget {
             ),
             child: Text(
               text,
-              style: TextStyle(
-                color: secondary,
+              style: const TextStyle(
+                color: Color.fromARGB(255, 229, 228, 234),
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
@@ -44,13 +42,13 @@ class Button extends StatelessWidget {
             onPressed: onPressed,
             style: TextButton.styleFrom(
               foregroundColor: primary,
-              backgroundColor: secondary,
+              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
               ),
-              side: BorderSide(
-                color: secondaryText,
+              side: const BorderSide(
+                color: Color.fromARGB(255, 170, 169, 177),
                 width: 1,
               ),
               textStyle: const TextStyle(
@@ -60,8 +58,8 @@ class Button extends StatelessWidget {
             ),
             child: Text(
               text,
-              style: TextStyle(
-                color: secondaryText,
+              style: const TextStyle(
+                color: Color.fromARGB(255, 170, 169, 177),
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
