@@ -22,6 +22,12 @@ class _MyAppState extends State<MyApp> {
     const Text('Bookmark'),
   ];
 
+  static final List<Widget> _appBarOptions = <Widget>[
+    const MyAppBar(),
+    const MyAppBar(),
+    const MyAppBar(),
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -37,7 +43,12 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        appBar: const MyAppBar(),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: _appBarOptions.elementAt(
+            _currentIndex,
+          ),
+        ),
         body: _widgetOptions.elementAt(
           _currentIndex,
         ),

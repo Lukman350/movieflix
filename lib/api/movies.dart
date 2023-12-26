@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:movieflix/models/movie_details_model.dart';
 import 'dart:convert' as convert;
 
 import 'package:movieflix/models/movie_model.dart';
@@ -38,6 +39,18 @@ class Api {
       return movies;
     } else {
       throw Exception('Failed to load movies');
+    }
+  }
+
+  static Future<MovieModel> getMovieDetails(int movieId) async {
+    final response = await http.get(Uri.parse('$apiUrl/get_movie/$movieId'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = convert.jsonDecode(response.body);
+
+      return MovieModel.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed to load movie');
     }
   }
 }

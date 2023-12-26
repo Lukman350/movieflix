@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movieflix/models/movie_model.dart';
 import 'package:movieflix/models/movieless_model.dart';
+import 'package:movieflix/screens/movie_details.dart';
 
 class MovieCard extends StatelessWidget {
   final bool grid;
@@ -52,7 +53,16 @@ class MovieCard extends StatelessWidget {
   Widget gridView(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(8),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MovieDetails(
+              movieId: movie!.id,
+            ),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(6.0),
         child: Row(
@@ -115,7 +125,7 @@ class MovieCard extends StatelessWidget {
                         width: 4,
                       ),
                       Text(
-                        '${calculateRating(movie!.voteAverage).toStringAsFixed(1)}/5',
+                        '${calculateRating(movie!.voteAverage).toStringAsFixed(2)}/5',
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w300,
@@ -167,10 +177,19 @@ class MovieCard extends StatelessWidget {
     );
   }
 
-  Widget listView() {
+  Widget listView(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(8),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MovieDetails(
+              movieId: movieLess!.id,
+            ),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(6.0),
         child: SizedBox(
@@ -238,7 +257,7 @@ class MovieCard extends StatelessWidget {
                             width: 4,
                           ),
                           Text(
-                            '${calculateRating(movieLess!.voteAverage).toStringAsFixed(1)}/5',
+                            '${calculateRating(movieLess!.voteAverage).toStringAsFixed(2)}/5',
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w300,
@@ -260,6 +279,6 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return grid ? gridView(context) : listView();
+    return grid ? gridView(context) : listView(context);
   }
 }
