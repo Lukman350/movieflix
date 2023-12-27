@@ -25,7 +25,7 @@ class MovieModel {
   final List<Genre> genres;
   final int id;
   @JsonKey(name: 'imdb_id')
-  final String imdbId;
+  final String? imdbId;
   @JsonKey(name: 'original_language')
   final String originalLanguage;
   final String title;

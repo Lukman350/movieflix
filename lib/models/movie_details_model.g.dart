@@ -13,7 +13,7 @@ MovieModel _$MovieModelFromJson(Map<String, dynamic> json) => MovieModel(
           .map((e) => Genre.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['id'] as int,
-      json['imdb_id'] as String,
+      json['imdb_id'] as String?,
       json['original_language'] as String,
       json['title'] as String,
       json['overview'] as String,

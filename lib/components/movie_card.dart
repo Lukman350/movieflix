@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movieflix/components/genre_widget.dart';
 import 'package:movieflix/models/movie_model.dart';
 import 'package:movieflix/models/movieless_model.dart';
 import 'package:movieflix/screens/movie_details.dart';
@@ -19,35 +20,6 @@ class MovieCard extends StatelessWidget {
     final int remainingMinutes = minutes % 60;
 
     return '$hours h $remainingMinutes min';
-  }
-
-  Widget createGenreWidget() {
-    return Row(
-      children: movie!.genres
-          .map(
-            (genre) => Container(
-              margin: const EdgeInsets.only(right: 4),
-              child: InkWell(
-                onTap: () {},
-                child: Badge(
-                  backgroundColor: const Color.fromARGB(255, 219, 227, 255),
-                  textColor: const Color.fromARGB(255, 136, 164, 232),
-                  alignment: Alignment.center,
-                  smallSize: 12,
-                  largeSize: 20,
-                  label: Text(
-                    genre.name,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )
-          .toList(),
-    );
   }
 
   Widget gridView(BuildContext context) {
@@ -143,7 +115,7 @@ class MovieCard extends StatelessWidget {
                         thickness: 0,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: createGenreWidget(),
+                          child: GenreWidget(genres: movie!.genres),
                         ),
                       ),
                     ),
