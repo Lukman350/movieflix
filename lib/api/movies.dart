@@ -42,13 +42,27 @@ class Api {
     }
   }
 
-  static Future<MovieModel> getMovieDetails(int movieId) async {
+  static Future getMovieDetails(int movieId, {bool? lessData = false}) async {
     final response = await http.get(Uri.parse('$apiUrl/get_movie/$movieId'));
 
     if (response.statusCode == 200) {
       final jsonResponse = convert.jsonDecode(response.body);
 
-      return MovieModel.fromJson(jsonResponse);
+      return lessData == true
+          ? Movie.fromJson(jsonResponse)
+          : MovieModel.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed to load movie');
+    }
+  }
+
+  static Future<Movie> searchMovies(String query) async {
+    final response = await http.get(Uri.parse('$apiUrl/search_movie/$query'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = convert.jsonDecode(response.body);
+
+      return Movie.fromJson(jsonResponse);
     } else {
       throw Exception('Failed to load movie');
     }
