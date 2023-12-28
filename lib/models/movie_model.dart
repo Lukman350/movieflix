@@ -9,7 +9,6 @@ class Movie {
     this.adult,
     this.title,
     this.voteAverage,
-    this.voteCount,
     this.backdropPath,
     this.genres,
     this.imdbId,
@@ -21,8 +20,6 @@ class Movie {
   final String title;
   @JsonKey(name: 'vote_average')
   final double voteAverage;
-  @JsonKey(name: 'vote_count')
-  final int voteCount;
   @JsonKey(name: 'backdrop_path')
   final String backdropPath;
   final List<Genre> genres;
