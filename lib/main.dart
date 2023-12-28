@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movieflix/components/app_bar.dart';
+import 'package:movieflix/screens/bookmark_screen.dart';
 import 'package:movieflix/screens/home_screen.dart';
+import 'package:movieflix/screens/search_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,8 +20,8 @@ class _MyAppState extends State<MyApp> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
-    const Text('Search'),
-    const Text('Bookmark'),
+    const SearchScreen(),
+    BookmarkScreen(),
   ];
 
   static final List<Widget> _appBarOptions = <Widget>[
