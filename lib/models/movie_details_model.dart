@@ -15,9 +15,11 @@ class MovieModel {
     this.title,
     this.overview,
     this.posterPath,
+    this.releaseDate,
     this.runtime,
     this.voteAverage,
     this.cast,
+    this.videos,
   );
 
   final bool adult;
@@ -32,10 +34,13 @@ class MovieModel {
   final String overview;
   @JsonKey(name: 'poster_path')
   final String posterPath;
+  @JsonKey(name: 'release_date')
+  final String releaseDate;
   final int runtime;
   @JsonKey(name: 'vote_average')
   final double voteAverage;
   final List<Cast>? cast;
+  final List<Video>? videos;
 
   factory MovieModel.fromJson(Map<String, dynamic> json) =>
       _$MovieModelFromJson(json);
@@ -55,4 +60,18 @@ class Cast {
   factory Cast.fromJson(Map<String, dynamic> json) => _$CastFromJson(json);
 
   Map<String, dynamic> toJson() => _$CastToJson(this);
+}
+
+@JsonSerializable()
+class Video {
+  Video(this.key, this.name, this.site, this.type);
+
+  final String key;
+  final String name;
+  final String site;
+  final String type;
+
+  factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VideoToJson(this);
 }
