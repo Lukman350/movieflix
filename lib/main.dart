@@ -42,6 +42,26 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       theme: ThemeData(
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: const MaterialColor(
+            0xFF111447,
+            <int, Color>{
+              50: Color(0xFFE7E9FF),
+              100: Color(0xFFC4C9FF),
+              200: Color(0xFF9EA7FF),
+              300: Color(0xFF7885FF),
+              400: Color(0xFF5766FF),
+              500: Color(0xFF3548FF),
+              600: Color(0xFF2A3DE6),
+              700: Color(0xFF2234C4),
+              800: Color(0xFF1A2C9E),
+              900: Color(0xFF121F73),
+            },
+          ),
+        ),
+        fontFamily: DefaultTextStyle.of(context).style.fontFamily,
+        fontFamilyFallback:
+            DefaultTextStyle.of(context).style.fontFamilyFallback,
       ),
       home: Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -68,19 +88,22 @@ class _MyAppState extends State<MyApp> {
           ),
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.movie_rounded),
+              icon: Icon(Icons.movie_creation_outlined),
               tooltip: 'Home',
               label: 'Home',
+              activeIcon: Icon(Icons.movie_creation_rounded),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search_rounded),
+              icon: Icon(Icons.search_outlined),
               tooltip: 'Search',
               label: 'Search',
+              activeIcon: Icon(Icons.search_rounded),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bookmark_outline_rounded),
               tooltip: 'Bookmark',
               label: 'Bookmark',
+              activeIcon: Icon(Icons.bookmark_rounded),
             ),
           ],
         ),
