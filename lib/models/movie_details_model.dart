@@ -33,7 +33,7 @@ class MovieModel {
   final String title;
   final String overview;
   @JsonKey(name: 'poster_path')
-  final String posterPath;
+  final String? posterPath;
   @JsonKey(name: 'release_date')
   final String releaseDate;
   final int runtime;
