@@ -43,24 +43,64 @@ class MovieCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                'https://image.tmdb.org/t/p/w500${movie!.backdropPath}',
-                width: 85,
-                height: 120,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const SizedBox(
-                    width: 85,
-                    height: 120,
-                    child: Center(
-                      child: Icon(
-                        Icons.error_outline_rounded,
-                        color: Colors.red,
+              child: movie!.backdropPath != null
+                  ? Image.network(
+                      'https://image.tmdb.org/t/p/w500${movie!.backdropPath}',
+                      width: 85,
+                      height: 120,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const SizedBox(
+                          width: 85,
+                          height: 120,
+                          child: Center(
+                            child: Icon(
+                              Icons.error_outline_rounded,
+                              color: Colors.red,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Container(
+                      width: 85,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      child: const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.error_outline_rounded,
+                              color: Colors.red,
+                              size: 40,
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              'No image found',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.red,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
             ),
             const SizedBox(
               width: 8,
@@ -120,26 +160,30 @@ class MovieCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.access_time,
-                        color: Colors.black,
-                        size: 16,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        convertMinutesToHours(movie!.runtime),
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
+                  movie!.runtime != null
+                      ? Row(
+                          children: [
+                            const Icon(
+                              Icons.access_time,
+                              color: Colors.black,
+                              size: 16,
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              convertMinutesToHours(movie!.runtime!),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox.shrink(
+                          child: Text(''),
                         ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),
@@ -172,27 +216,60 @@ class MovieCard extends StatelessWidget {
             children: [
               Expanded(
                 flex: 3,
-                child: Container(
-                  height: 194,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        offset: const Offset(0, 1),
+                child: movieLess!.backdropPath != null
+                    ? Container(
+                        height: 194,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  'https://image.tmdb.org/t/p/w500${movieLess!.backdropPath}'),
+                              fit: BoxFit.cover,
+                            )),
+                      )
+                    : Container(
+                        height: 194,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        child: const Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.error_outline_rounded,
+                                color: Colors.red,
+                                size: 40,
+                              ),
+                              SizedBox(height: 16),
+                              Text(
+                                'No image found',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ],
-                    image: movieLess!.backdropPath != null
-                        ? DecorationImage(
-                            image: NetworkImage(
-                                'https://image.tmdb.org/t/p/w500${movieLess!.backdropPath}'),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                  ),
-                ),
               ),
               Expanded(
                 flex: 1,
