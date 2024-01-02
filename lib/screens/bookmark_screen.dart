@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movieflix/components/movie_card.dart';
+import 'package:movieflix/components/skeletons/movie_card.dart';
 import 'package:movieflix/models/movie_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:movieflix/api/movies.dart';
@@ -77,9 +78,7 @@ class BookmarkScreen extends StatelessWidget {
           return Text('${snapshot.error}');
         }
 
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return const MovieCardSkeleton(type: SkeletonType.vertical);
       },
     );
   }
