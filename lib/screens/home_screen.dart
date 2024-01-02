@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movieflix/components/button.dart';
 import 'package:movieflix/components/movie_card.dart';
+import 'package:movieflix/components/skeletons/movie_card.dart';
 import 'package:movieflix/models/movie_model.dart';
 import 'package:movieflix/api/movies.dart';
 import 'package:movieflix/models/movieless_model.dart';
+import 'package:movieflix/screens/see_more_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 
-  static Future<List<MovieLess>> getNowPlayingMovies() async {
+  static Future getNowPlayingMovies() async {
     return await Api.getNowPlayingMovies();
   }
 
@@ -21,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<MovieLess>> _nowPlayingMovies;
+  late Future _nowPlayingMovies;
   late Future<List<Movie>> _popularMovies;
 
   @override
@@ -60,11 +62,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     Button(
                         variant: "secondary",
                         text: "See more",
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SeeMoreScreen(
+                                type: MovieType.nowPlaying,
+                              ),
+                            ),
+                          );
+                        }),
                   ],
                 ),
                 Expanded(
-                  child: FutureBuilder<List<MovieLess>>(
+                  child: FutureBuilder(
                     future: _nowPlayingMovies,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
@@ -72,19 +83,40 @@ class _HomeScreenState extends State<HomeScreen> {
                           scrollDirection: Axis.horizontal,
                           padding: const EdgeInsets.all(4.0),
                           itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
+                          itemBuilder: (_, index) {
+                            final MovieLess movieLess = snapshot.data![index];
+
                             return MovieCard(
-                              movieLess: snapshot.data![index],
+                              movieLess: movieLess,
                               grid: false,
                             );
                           },
                         );
                       } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("${snapshot.error}"),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Button(
+                                variant: "primary",
+                                text: "Retry",
+                                onPressed: () {
+                                  setState(() {
+                                    _nowPlayingMovies =
+                                        HomeScreen.getNowPlayingMovies();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        );
                       }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return const MovieCardSkeleton(
+                          type: SkeletonType.horizontal);
                     },
                   ),
                 ),
@@ -113,7 +145,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     Button(
                         variant: "secondary",
                         text: "See more",
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SeeMoreScreen(
+                                type: MovieType.popular,
+                              ),
+                            ),
+                          );
+                        }),
                   ],
                 ),
                 Expanded(
@@ -132,11 +173,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         );
                       } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("${snapshot.error}"),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Button(
+                                variant: "primary",
+                                text: "Retry",
+                                onPressed: () {
+                                  setState(() {
+                                    _nowPlayingMovies =
+                                        HomeScreen.getPopularMovies();
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        );
                       }
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return const MovieCardSkeleton(
+                          type: SkeletonType.vertical);
                     },
                   ),
                 ),
