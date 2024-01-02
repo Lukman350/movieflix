@@ -19,12 +19,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: () {},
         icon: const Icon(Icons.menu),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.search),
-        ),
-      ],
     );
   }
 
