@@ -11,12 +11,12 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       json['adult'] as bool,
       json['title'] as String,
       (json['vote_average'] as num).toDouble(),
-      json['backdrop_path'] as String,
+      json['backdrop_path'] as String?,
       (json['genres'] as List<dynamic>)
           .map((e) => Genre.fromJson(e as Map<String, dynamic>))
           .toList(),
-      json['imdb_id'] as String,
-      json['runtime'] as int,
+      json['imdb_id'] as String?,
+      json['runtime'] as int?,
     );
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
@@ -31,7 +31,7 @@ Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
     };
 
 Genre _$GenreFromJson(Map<String, dynamic> json) => Genre(
-      json['id'] as int,
+      json['id'] as int?,
       json['name'] as String,
     );
 

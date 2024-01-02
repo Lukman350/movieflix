@@ -21,11 +21,11 @@ class Movie {
   @JsonKey(name: 'vote_average')
   final double voteAverage;
   @JsonKey(name: 'backdrop_path')
-  final String backdropPath;
+  final String? backdropPath;
   final List<Genre> genres;
   @JsonKey(name: 'imdb_id')
-  final String imdbId;
-  final int runtime;
+  final String? imdbId;
+  final int? runtime;
 
   factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
@@ -36,7 +36,7 @@ class Movie {
 class Genre {
   Genre(this.id, this.name);
 
-  final int id;
+  final int? id;
   final String name;
 
   factory Genre.fromJson(Map<String, dynamic> json) => _$GenreFromJson(json);
