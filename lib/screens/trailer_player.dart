@@ -10,13 +10,6 @@ class PlayTrailer extends StatelessWidget {
   Widget build(BuildContext context) {
     final Video videoData = ModalRoute.of(context)!.settings.arguments as Video;
 
-    SystemChrome.setPreferredOrientations(
-      [
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ],
-    );
-
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: YoutubePlayerController(
@@ -62,30 +55,14 @@ class PlayTrailer extends StatelessWidget {
           ),
         ],
       ),
-      onEnterFullScreen: () {
-        SystemChrome.setPreferredOrientations(
-          [
-            DeviceOrientation.landscapeLeft,
-            DeviceOrientation.landscapeRight,
-          ],
-        );
-      },
-      onExitFullScreen: () {
-        SystemChrome.setPreferredOrientations(
-          [
-            DeviceOrientation.portraitUp,
-            DeviceOrientation.portraitDown,
-          ],
-        );
-      },
       builder: (context, player) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios_rounded,
-              color: Colors.white,
+              color: Colors.black,
             ),
             onPressed: () {
               SystemChrome.setPreferredOrientations(
@@ -98,8 +75,22 @@ class PlayTrailer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          title: const Text(
+            'MovieFlix',
+            style: TextStyle(
+                color: Color.fromARGB(255, 17, 14, 71),
+                fontSize: 24,
+                fontWeight: FontWeight.w900),
+          ),
+          centerTitle: true,
         ),
-        body: player,
+        body: Column(
+          children: [
+            Expanded(
+              child: player,
+            ),
+          ],
+        ),
       ),
     );
   }
