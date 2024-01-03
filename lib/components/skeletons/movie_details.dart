@@ -18,6 +18,26 @@ class MovieDetailsSkeleton extends StatelessWidget {
               borderRadius: BorderRadius.circular(0),
             ),
           ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                backgroundColor: Colors.grey.withOpacity(0.5),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: const ButtonStyle(
+                    splashFactory: NoSplash.splashFactory,
+                  ),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
           Positioned(
             top: 250,
             child: Container(
@@ -217,17 +237,6 @@ class MovieDetailsSkeleton extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SkeletonLine(
-                                style: SkeletonLineStyle(
-                                  height: 16,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
                               SkeletonLine(
                                 style: SkeletonLineStyle(
                                   height: 16,
