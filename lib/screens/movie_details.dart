@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:movieflix/api/movies.dart';
 import 'package:movieflix/components/bookmark_widget.dart';
+import 'package:movieflix/components/error_modal.dart';
 import 'package:movieflix/components/genre_widget.dart';
 import 'package:movieflix/components/skeletons/movie_details.dart';
 import 'package:movieflix/models/movie_details_model.dart';
@@ -17,11 +19,28 @@ class MovieDetails extends StatefulWidget {
 
 class _MovieDetailsState extends State<MovieDetails> {
   late Future _movieData;
+  final ValueNotifier<bool> _errorNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
     super.initState();
     _movieData = Api.getMovieDetails(widget.movieId);
+
+    _errorNotifier.addListener(() {
+      if (_errorNotifier.value) {
+        ErrorModal(
+          context: context,
+          retry: () {
+            setState(() {
+              _movieData = Api.getMovieDetails(widget.movieId);
+              _errorNotifier.value = false;
+            });
+
+            Navigator.of(context).pop();
+          },
+        );
+      }
+    });
   }
 
   String convertMinutesToHours(int minutes) {
@@ -505,29 +524,11 @@ class _MovieDetailsState extends State<MovieDetails> {
           }
 
           if (snapshot.hasError) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline_rounded,
-                    size: 100,
-                    color: Color.fromARGB(255, 17, 14, 71),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Something went wrong!',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 17, 14, 71),
-                    ),
-                  ),
-                ],
-              ),
-            );
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              _errorNotifier.value = true;
+            });
+
+            return const MovieDetailsSkeleton();
           }
 
           return const MovieDetailsSkeleton();
