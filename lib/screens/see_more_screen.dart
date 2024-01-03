@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movieflix/api/movies.dart';
+import 'package:movieflix/components/error_modal.dart';
 import 'package:movieflix/components/movie_card.dart';
 import 'package:movieflix/components/skeletons/movie_card.dart';
 import 'package:movieflix/models/movie_model.dart';
@@ -77,6 +79,21 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
           ),
         ),
         newPageProgressIndicatorBuilder: (_) => const MovieCardSkeletonSingle(),
+        firstPageErrorIndicatorBuilder: (context) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            ErrorModal(
+              context: context,
+              retry: () {
+                _pagingController.refresh();
+                Navigator.of(context).pop();
+              },
+            );
+          });
+
+          return const MovieCardSkeletonSingle(count: 10);
+        },
+        firstPageProgressIndicatorBuilder: (_) =>
+            const MovieCardSkeletonSingle(count: 10),
         itemBuilder: (context, item, index) => MovieCard(
           grid: true,
           movie: item,
@@ -102,7 +119,18 @@ class _SeeMoreScreenState extends State<SeeMoreScreen> {
         centerTitle: true,
       ),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: _buildBody(),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Future.delayed(const Duration(milliseconds: 1500));
+
+          _pagingController.refresh();
+        },
+        displacement: 100.0,
+        backgroundColor: Colors.white,
+        strokeWidth: 3.0,
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        child: _buildBody(),
+      ),
     );
   }
 
