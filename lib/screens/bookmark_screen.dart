@@ -1,15 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:movieflix/components/error_modal.dart';
 import 'package:movieflix/components/movie_card.dart';
 import 'package:movieflix/components/skeletons/movie_card.dart';
 import 'package:movieflix/models/movie_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:movieflix/api/movies.dart';
 
-class BookmarkScreen extends StatelessWidget {
+class BookmarkScreen extends StatefulWidget {
+  const BookmarkScreen({super.key});
+
+  @override
+  State<BookmarkScreen> createState() => _BookmarkScreenState();
+}
+
+class _BookmarkScreenState extends State<BookmarkScreen> {
   final Future<SharedPreferences> _preferences =
       SharedPreferences.getInstance();
+  late Future<List<Movie>> _bookmarkedMovies;
+  final ValueNotifier<bool> _errorNotifier = ValueNotifier<bool>(false);
 
-  BookmarkScreen({super.key});
+  @override
+  void initState() {
+    super.initState();
+
+    _bookmarkedMovies = _getBookmarkedMovies();
+    _errorNotifier.addListener(() {
+      if (_errorNotifier.value) {
+        ErrorModal(
+          context: context,
+          retry: () {
+            setState(() {
+              _bookmarkedMovies = _getBookmarkedMovies();
+            });
+          },
+        );
+      }
+    });
+  }
 
   Future<List<String>> _getBookmarks() async {
     final SharedPreferences prefs = await _preferences;
@@ -35,7 +63,7 @@ class BookmarkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Movie>>(
-      future: _getBookmarkedMovies(),
+      future: _bookmarkedMovies,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isEmpty) {
@@ -75,7 +103,11 @@ class BookmarkScreen extends StatelessWidget {
             },
           );
         } else if (snapshot.hasError) {
-          return Text('${snapshot.error}');
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            _errorNotifier.value = true;
+          });
+
+          return const MovieCardSkeleton(type: SkeletonType.vertical);
         }
 
         return const MovieCardSkeleton(type: SkeletonType.vertical);
