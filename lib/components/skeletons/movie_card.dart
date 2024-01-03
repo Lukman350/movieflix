@@ -214,111 +214,125 @@ class MovieCardSkeleton extends StatelessWidget {
 }
 
 class MovieCardSkeletonSingle extends StatelessWidget {
-  const MovieCardSkeletonSingle({super.key});
+  final int? count;
+
+  const MovieCardSkeletonSingle({super.key, this.count = 1});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 132,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SkeletonLine(
-            style: SkeletonLineStyle(
-              width: 85,
-              height: 120,
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          SizedBox(
-            height: 110,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 200,
-                  child: SkeletonLine(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: count,
+          itemBuilder: (_, __) {
+            return SizedBox(
+              height: 132,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SkeletonLine(
                     style: SkeletonLineStyle(
-                      height: 16,
+                      width: 85,
+                      height: 120,
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  children: [
-                    SkeletonAvatar(
-                      style: SkeletonAvatarStyle(
-                        width: 16,
-                        height: 16,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    SkeletonLine(
-                      style: SkeletonLineStyle(
-                        height: 16,
-                        width: 50,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 150,
-                      child: Row(
-                        children: [
-                          SkeletonLine(
-                            style: SkeletonLineStyle(
-                              height: 16,
-                              width: 50,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          SkeletonLine(
-                            style: SkeletonLineStyle(
-                              height: 16,
-                              width: 50,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          SkeletonLine(
-                            style: SkeletonLineStyle(
-                              height: 16,
-                              width: 50,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                        ],
-                      )),
-                ),
-                SkeletonLine(
-                  style: SkeletonLineStyle(
-                    height: 16,
-                    width: 100,
-                    borderRadius: BorderRadius.circular(8),
+                  const SizedBox(
+                    width: 8,
                   ),
-                ),
-              ],
-            ),
-          ),
-        ],
+                  SizedBox(
+                    height: 110,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 200,
+                          child: SkeletonLine(
+                            style: SkeletonLineStyle(
+                              height: 14,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        Row(
+                          children: [
+                            SkeletonAvatar(
+                              style: SkeletonAvatarStyle(
+                                width: 16,
+                                height: 16,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            SkeletonLine(
+                              style: SkeletonLineStyle(
+                                height: 16,
+                                width: 50,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                              width: MediaQuery.of(context).size.width - 150,
+                              child: Row(
+                                children: [
+                                  SkeletonLine(
+                                    style: SkeletonLineStyle(
+                                      height: 16,
+                                      width: 50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  SkeletonLine(
+                                    style: SkeletonLineStyle(
+                                      height: 16,
+                                      width: 50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  SkeletonLine(
+                                    style: SkeletonLineStyle(
+                                      height: 16,
+                                      width: 50,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ),
+                        SkeletonLine(
+                          style: SkeletonLineStyle(
+                            height: 16,
+                            width: 100,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
