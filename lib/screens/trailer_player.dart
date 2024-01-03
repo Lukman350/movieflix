@@ -11,6 +11,11 @@ class PlayTrailer extends StatelessWidget {
     final Video videoData = ModalRoute.of(context)!.settings.arguments as Video;
 
     return YoutubePlayerBuilder(
+      onExitFullScreen: () {
+        // show status bar when exiting fullscreen
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+            overlays: SystemUiOverlay.values);
+      },
       player: YoutubePlayer(
         controller: YoutubePlayerController(
           initialVideoId: videoData.key,
