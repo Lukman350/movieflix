@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   static final List<Widget> _widgetOptions = <Widget>[
     const HomeScreen(),
     const SearchScreen(),
-    BookmarkScreen(),
+    const BookmarkScreen(),
   ];
 
   static final List<Widget> _appBarOptions = <Widget>[
